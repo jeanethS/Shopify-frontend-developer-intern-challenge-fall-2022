@@ -1,0 +1,20 @@
+.hero-container {
+  padding: 2% 5%;
+  height: 100vh;
+}
+
+.tittle {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 900;
+  font-size: 64px;
+  line-height: 75px;
+}
+
+.tagline {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 38px;
+  line-height: 45px;
+}
