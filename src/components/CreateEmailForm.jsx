@@ -1,14 +1,14 @@
-import React from "react";
 import { useState } from "react";
 import {
   FormControl,
+  Autocomplete,
   TextField,
   FormHelperText,
   Box,
   useMediaQuery,
-  Button,
 } from "@mui/material";
-import Autocomplete from "@mui/material/Autocomplete";
+import ButtonCreate from "./ButtonCreate.jsx";
+
 const options = [
   "Appreciative",
   "Assertive",
@@ -20,9 +20,15 @@ const options = [
   "Optimistic",
 ];
 const CreateEmailForm = () => {
-  /*const [recipent, setName] = useState("Composed TextField");*/
-  const [value, setValue] = useState(options[0]);
-  const [inputValue, setInputValue] = useState("");
+  const [data, setData] = useState({
+    recipient: "",
+    purpose: "",
+    goal: "",
+    tone: options[0],
+  });
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
   return (
     <Box
       component="form"
@@ -52,10 +58,11 @@ const CreateEmailForm = () => {
         >
           <TextField
             required
-            id="recipientValue"
+            name="recipient"
             label="Who is the recipient of your email?"
-            defaultValue="John"
             variant="standard"
+            value={data.recipient}
+            onChange={handleChange}
           />
         </FormControl>
         <FormControl
@@ -65,12 +72,13 @@ const CreateEmailForm = () => {
           }}
         >
           <TextField
-            id="purposeValue"
+            name="purpose"
             label="What is the context behind your email?"
             multiline
             rows={3}
-            defaultValue="Mr. Darcy is currently worried because he is ..."
             variant="standard"
+            value={data.purpose}
+            onChange={handleChange}
           />
           <FormHelperText
             id="purpose-helper-text"
@@ -89,12 +97,13 @@ const CreateEmailForm = () => {
         >
           <TextField
             required
-            id="goalValue"
+            name="goal"
             label="What is the goal of your email have?"
             multiline
             rows={2}
-            defaultValue="ask for more information"
             variant="standard"
+            value={data.goal}
+            onChange={handleChange}
           />
           <FormHelperText
             id="my-helper-text"
@@ -107,16 +116,16 @@ const CreateEmailForm = () => {
         </FormControl>
         <FormControl fullWidth={true}>
           <Autocomplete
-            value={value}
-            onChange={(event, newValue) => {
-              setValue(newValue);
-            }}
-            inputValue={inputValue}
-            onInputChange={(event, newInputValue) => {
-              setInputValue(newInputValue);
-            }}
-            id="controllable-states-demo"
+            disablePortal
             options={options}
+            name="tone"
+            value={data.tone}
+            onChange={(event, newValue) => {
+              setData({
+                ...data,
+                tone: newValue,
+              });
+            }}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -127,21 +136,12 @@ const CreateEmailForm = () => {
           />
         </FormControl>
       </Box>
-      <Button
-        variant="contained"
-        sx={{
-          background: "linear-gradient(90deg, #FF0076 0%, #590FB7 100%)",
-          boxShadow: "0px 0px 25px rgba(0, 0, 0, 0.3)",
-          borderRadius: useMediaQuery("(min-width:600px)") ? "20px" : "15px",
-          fontWeight: "700",
-          fontSize: "0.8rem",
-          height: "2.5rem",
-          width: useMediaQuery("(min-width:600px)") ? "8rem" : "15vw",
-          padding: "0.1rem",
-        }}
-      >
-        Create
-      </Button>
+      <ButtonCreate
+        recipient={data.recipient}
+        purpose={data.purpose}
+        goal={data.goal}
+        tone={data.tone}
+      />
     </Box>
   );
 };
