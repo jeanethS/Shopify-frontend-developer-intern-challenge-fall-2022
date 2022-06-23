@@ -1,9 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Box, Button, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
-import HistorySection from "./HistorySection.jsx";
 
 const ButtonCreate = (props) => {
   const parameters = {
@@ -48,10 +46,7 @@ const ButtonCreate = (props) => {
           call();
           console.log(parameters.prompt);
         }}
-      >
-        Create
-      </Button>
-      <HistorySection pastPrompt={parameters.prompt} pastResponse={response} />
+      ></Button>
     </Box>
   );
 };
