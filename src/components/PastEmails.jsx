@@ -1,18 +1,30 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 const PastEmails = (props) => {
+  /*const renderPastPrompts = () => {
+    return props.pastPrompts.map((prompt) => {
+      return <p>{prompt}</p>;
+    });
+  };*/
+  const renderPastResponses = () => {
+    return props.pastResponses.map((response) => {
+      return (
+        <div>
+          <h2>Response</h2>
+          <p>{response}</p>
+        </div>
+      );
+    });
+  };
   return (
     <div>
-      <h1>Past emails</h1>
-      <h3>Prompt</h3>
-      <p>{props.pastPrompt}</p>
-      <h3>Response</h3>
-      <p>{props.pastResponse}</p>
+      <h1>Past Emails</h1>
+      <div>
+        <h2>Email</h2>
+        {renderPastResponses()}
+      </div>
     </div>
   );
 };
-
-PastEmails.propTypes = {};
 
 export default PastEmails;

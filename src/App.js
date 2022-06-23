@@ -15,6 +15,7 @@ import { useState } from "react";
 import axios from "axios";
 import heropic from "./assets/Saly-10.png";
 import "./components/HeroSection.css";
+import PastEmails from "./components/PastEmails";
 import React from "react";
 const options = [
   "Appreciative",
@@ -65,30 +66,34 @@ function App() {
     console.log(response);
   };
 
-  const [pastResponse, setPastResponse] = useState(response);
-  const [pastPrompt, setPastPrompt] = useState(parameters.prompt);
+  const [pastResponse, setPastResponse] = useState();
+  const [pastPrompt, setPastPrompt] = useState();
   const [pastPrompts, setPastPrompts] = useState([pastPrompt]);
-  const [pastResponses, setPastResponses] = useState([pastResponse]);
-  const makePastPrompts = (pastPrompt) => {
-    setPastPrompts([...pastPrompts, prompt]);
-  };
-  const makePastResponses = (pastResponse) => {
-    setPastResponses([...pastResponses, response]);
-  };
+  const [pastResponses, setPastResponses] = useState([]);
+  //const [pastEmails, setPastEmails] = useState({});
+  /*const makePastEmails = (pastPrompts, pastResponse) => {
+    setPastEmails({
+      ...pastEmails,
+      prompt: pastPrompt,
+      response: pastResponse,
+    });
+  };*/
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   const handleSubmit = (e) => {
     call();
-    setPastResponse(response);
-    console.log("past Response" + pastResponse);
-    setPastPrompt(parameters.prompt);
+    //setPastResponse(response);
+    //console.log("past Response" + pastResponse);
+    //setPastPrompt(parameters.prompt);
     //console.log("past prompt" + pastPrompt);
-    setPastPrompts([...pastPrompts, pastPrompt]);
+    //setPastPrompts([...pastPrompts, pastPrompt]);
     //console.log("past promptss" + pastPrompts);
-    setPastResponses([...pastResponses, pastResponse]);
-    console.log("past Responses" + pastResponses);
+    setPastResponses([...pastResponses, response]);
+    //makePastEmails(pastPrompt, pastResponse);
+    //console.log("past Responses" + pastResponses);
+    console.log(parameters.prompt);
   };
 
   // save the a list of past prompts and responses
@@ -105,15 +110,7 @@ function App() {
   };*/
 
   // render the past prompts and responses
-  let listEmails = pastPrompts.map((prompt, index) => (
-    <div>
-      <h1>Past emails</h1>
-      <h3>Prompt</h3>
-      <p>{pastPrompts}</p>
-      <h3>Response</h3>
-      <p>{pastResponses}</p>
-    </div>
-  ));
+
   return (
     <div>
       <Container
@@ -307,7 +304,11 @@ function App() {
             padding: "10%",
           }}
         >
-          {listEmails}
+          {pastResponses ? (
+            <PastEmails pastResponses={pastResponses} />
+          ) : (
+            <h2>Nothing to show here</h2>
+          )}
         </Box>
       </Container>
     </div>
