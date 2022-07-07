@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const PastEmails = (props) => {
   /*const renderPastPrompts = () => {
@@ -7,21 +7,24 @@ const PastEmails = (props) => {
     });
   };*/
   const renderPastResponses = () => {
-    return props.pastResponses.map((response) => {
-      return (
-        <div>
-          <h2>Response</h2>
-          <p>{response}</p>
-        </div>
-      );
-    });
+    return;
   };
+  useEffect(() => {}, props);
+
   return (
     <div>
       <h1>Past Emails</h1>
       <div>
-        <h2>Email</h2>
-        {renderPastResponses()}
+        {
+          props.pastResponses.map((response) => {
+            return (
+              <div>
+                <h2>Email</h2>
+                <p>{response}</p>
+              </div>
+            );
+          }) /*renderPastResponses()*/
+        }
       </div>
     </div>
   );

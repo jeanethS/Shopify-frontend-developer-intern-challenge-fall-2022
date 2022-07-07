@@ -11,7 +11,7 @@ import {
   TextField,
   FormHelperText,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import heropic from "./assets/Saly-10.png";
 import "./components/HeroSection.css";
@@ -38,7 +38,8 @@ function App() {
     tone: options[0],
   });
 
-  const [response, setResponse] = useState();
+  const [response, setResponse] = useState("");
+  const [pastResponses, setPastResponses] = useState([]);
 
   const parameters = {
     prompt: `Write a professional email to ${data.recipient} because ${data.purpose}. 
@@ -46,7 +47,6 @@ function App() {
     temperature: 0.88,
     max_tokens: 500,
   };
-
   const call = () => {
     axios
       .post(
@@ -54,22 +54,30 @@ function App() {
         parameters,
         {
           headers: {
-            ContentType: "application/json",
-            Authorization: "Bearer " + process.env.REACT_APP_OPENAI_API_KEY,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
           },
         }
       )
-      .then((res) => {
-        setResponse(res.data.choices[0].text);
+      .then((response) => {
+        setResponse(response.data.choices[0].text);
       })
-      .catch((err) => console.log(err));
-    console.log(response);
+      .catch((error) => {
+        console.log(error);
+      });
   };
+  useEffect(() => {
+    setData({
+      recipient: "",
+      purpose: "",
+      goal: "",
+      tone: options[0],
+    });
+  }, [response]);
 
   const [pastResponse, setPastResponse] = useState();
   const [pastPrompt, setPastPrompt] = useState();
   const [pastPrompts, setPastPrompts] = useState([pastPrompt]);
-  const [pastResponses, setPastResponses] = useState([]);
   //const [pastEmails, setPastEmails] = useState({});
   /*const makePastEmails = (pastPrompts, pastResponse) => {
     setPastEmails({
@@ -81,6 +89,9 @@ function App() {
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
+    console.log(data);
+    console.log(parameters.prompt);
+    console.log(pastResponses);
   };
   const handleSubmit = (e) => {
     call();
@@ -92,6 +103,7 @@ function App() {
     //console.log("past promptss" + pastPrompts);
     setPastResponses([...pastResponses, response]);
     //makePastEmails(pastPrompt, pastResponse);
+    console.log("responses: " + response);
     //console.log("past Responses" + pastResponses);
     console.log(parameters.prompt);
   };
@@ -304,8 +316,8 @@ function App() {
             padding: "10%",
           }}
         >
-          {pastResponses ? (
-            <PastEmails pastResponses={pastResponses} />
+          {pastResponses != 0 ? (
+            <PastEmails pastResponses={pastResponses.slice(1)} />
           ) : (
             <h2>Nothing to show here</h2>
           )}
